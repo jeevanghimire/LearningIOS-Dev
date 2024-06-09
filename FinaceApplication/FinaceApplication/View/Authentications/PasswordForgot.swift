@@ -6,21 +6,24 @@ final class forgotPassword: ObservableObject {
     @Published var popUp = false
     
     
-    func sendEmail() async throws {
+    func sendEmail() async throws  {
         guard !email.isEmpty else{
             //popup menu
             print("Email is required")
+            return
         }
         Task{
             do{
                 let forgoteddataMail: () = try await AuthManager.shared .forgotPassword(email: email)
                 print("Email Sent: \(forgoteddataMail)")
+                
             }
             catch{
                 print("Error: \(error.localizedDescription)")
             }
         }
     }
+}
     
     
     
@@ -30,7 +33,7 @@ final class forgotPassword: ObservableObject {
             HStack{
                 Image(systemName: "person.fill")
                     .foregroundColor(.gray)
-                TextField("Enter Your Email", text: .constant(""))
+                TextField("Enter Your Email", text: $forgot.email)
                     .padding()
                     .background(Color.gray.opacity(0.3))
                     .cornerRadius(10)
@@ -38,7 +41,9 @@ final class forgotPassword: ObservableObject {
             //button
                 .padding()
             Button(action: {
-                
+                Task{
+                    try await forgot.sendEmail()
+                }
                 print("Send Button Clicked")
             }){
                 Text("Send")
@@ -50,7 +55,7 @@ final class forgotPassword: ObservableObject {
             }
         }
     }
-}
+
 
 #Preview {
        PasswordForgot()
