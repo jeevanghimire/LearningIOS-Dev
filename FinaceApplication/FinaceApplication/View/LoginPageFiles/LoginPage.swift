@@ -1,6 +1,5 @@
 
 import SwiftUI
-import Firebase
 
 @MainActor
 //make the user final class to check the user is exist or not
@@ -9,6 +8,7 @@ final class UserCheck: ObservableObject {
     //code that check the user is exist or not
     @Published var email = ""
     @Published var password = ""
+    @State var wrongText = false
     
     func SignIn() async throws{
         guard !email.isEmpty, !password.isEmpty else {
@@ -23,6 +23,7 @@ final class UserCheck: ObservableObject {
             }
             catch{
                 print("Error: \(error.localizedDescription)")
+                wrongText = true
             }
         
     }
@@ -30,7 +31,8 @@ final class UserCheck: ObservableObject {
     
 }
     
-    struct LoginPage: View {
+struct LoginPage: View {
+    
         @StateObject var user = UserCheck()
         var body: some View {
             //logo Section
@@ -53,17 +55,18 @@ final class UserCheck: ObservableObject {
                             .textCase(.lowercase)
                         
                     }.padding(.horizontal)
+                    
+                    HStack{
+                        Image(systemName: "lock.fill")
+                            .foregroundColor(.blue)
+                        SecureField("Password...", text:$user.password)
+                            .padding()
+                            .background(Color.gray.opacity(0.3))
+                            .cornerRadius(10)
+                        
+                        
+                    }.padding(.horizontal)
                 }
-                HStack{
-                    Image(systemName: "lock.fill")
-                        .foregroundColor(.blue)
-                    SecureField("Password...", text:$user.password)
-                        .padding()
-                        .background(Color.gray.opacity(0.3))
-                        .cornerRadius(10)
-                    
-                    
-                }.padding(.horizontal)
                 //Button
                 
                 Button(action: {
@@ -87,6 +90,7 @@ final class UserCheck: ObservableObject {
                 }.padding(.top, 20)
             }.padding(.bottom, 20)
             //Forgot Password
+            
             NavigationLink(destination: PasswordForgot()){
                 Text("Forgot Password?")
                     .font(.headline)

@@ -28,7 +28,25 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>D153EFB32C145D4000D18A2F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D153EFC42C145D4300D18A2F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D153EFCE2C145D4300D18A2F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
